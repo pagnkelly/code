@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// 给定一个字符串，例如 "abacd"，给定一个次序变换后的结果，例如："abcda"，找出可以完成这一“变换”的“交换堆栈“操作，用i表示push，用o表示pop上面的例子变换，结果是：["iiiooioioo", "ioioiioioo"]
+		function convert(from, to){
+			if(from.split('').sort().join('') != to.split('').sort().join('')){
+				return [];
+			}
+			var res = [];
+			function proceed(stack, pos, prefix, ops){
+				//找到一个解
+				if(prefix === to){
+					res.push(ops);
+					return;
+				}
+				//不能pop
+				if(to.indexOf(prefix) != 0){//indexOf里如果是空则会和检测第一个字母一样返回0
+					return;
+				}
+				if(pos < from.length){
+					//先尝试push进堆栈
+					arguments.callee(stack+from.charAt(pos), pos+1, prefix, ops+'i');//charAt找到索引位置并且返回值
+				}
+				if(stack.length){
+					//再尝试pop出来
+					arguments.callee(stack.slice(0,-1), pos, prefix+stack.slice(-1), ops+'o');
+				}
+			}
+			proceed('', 0, '', '');
+			return res;
+		}
+        convert('abca','baac');
+	</script>
+</body>
+</html>

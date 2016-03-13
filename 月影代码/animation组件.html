@@ -1,0 +1,63 @@
+<button onclick="start()">开始</button>
+<span id="block"></span>
+<style type="text/css">
+body {background:white;}
+#block {
+  position:absolute;
+  width:20px;
+  height:20px;
+  left:100px;
+  top:100px;
+  background:green;
+}
+</style>
+<script type="text/javascript">
+function Animation(target, dur){
+  this.target = target;
+  this.dur = dur;
+  this.easing = function(p){return p};
+}
+
+Animation.prototype.onFinished = function(){
+  console.log('animation finished');
+}
+
+Animation.prototype.onProgress = function(p){
+  console.log('animation playing: ' + p);
+}
+
+Animation.prototype.start = function(){
+  this.p = 0;
+  this.startTime = Date.now();
+
+  var self = this;
+  requestAnimationFrame(function f(){
+    if(self.p >= 1){
+      self.onProgress(self.easing(1.0));
+      self.onFinished();
+    }else{
+      self.p = (Date.now() - self.startTime) / self.dur;
+      self.onProgress(self.easing(self.p));
+      requestAnimationFrame(f);
+    }
+  });  
+}
+
+function start(){'use strict'
+  var block = document.getElementById("block");
+
+  var anim = new Animation(block, 2000);
+
+  anim.onProgress = function(p){
+    this.target.style.left = 80 + p[0] * 45 + 'px'; //动画进行中
+    this.target.style.top = 80 + p[1] * 45 + 'px'; //动画进行中
+  } 
+  anim.easing = function(p){
+    return [Math.sin(p * 2* Math.PI),Math.cos(p * 2* Math.PI)];
+  }
+  anim.onFinished =function(){
+  	this.start();
+  }
+  anim.start();
+}
+</script> 

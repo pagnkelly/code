@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+//普通属性
+var obj = {x : 0, y : 0};
+
+//getter & setter
+Object.defineProperty(obj, 'length', {
+  get: function(){
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  },
+  set: function(len){
+    var arc = Math.PI * this.arc / 180;
+    this.x = len * Math.cos(arc);
+    this.y = len * Math.sin(arc);
+  }
+});
+
+Object.defineProperty(obj, 'arc', {
+  get: function(){
+    return Math.atan2(this.y, this.x) * 180 / Math.PI;
+  },
+  set: function(arc){
+    var len = this.length, arc = Math.PI * arc / 180;
+    this.x = len * Math.cos(arc);
+    this.y = len * Math.sin(arc);
+  }
+});
+
+obj.x = obj.y = 1;
+obj.y *= Math.sqrt(3);
+console.log(obj.length,obj.arc);
+  </script>
+</body>
+</html>

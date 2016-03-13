@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>DoubleArray</title>
+</head>
+<body>
+	<script>
+		function doubleArray(arr) {
+			var ret = [];
+			for (var i=0;i<arr.length;i++) {
+				ret[i]=arr[i]*2;
+			}
+			return ret;
+			//使用map方法映射
+			return arr.map(function(o,i){return o*2;})
+			//ECMAscript6新语法
+			return arr.map(o=>o*2);
+		}
+		var arr = [1,2,3,4,5];
+		console.log(arr);
+		console.log(doubleArray(arr));
+	</script>
+</body>
+</html>

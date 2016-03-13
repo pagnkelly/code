@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ObjectClone</title>
+</head>
+<body>
+	<script>
+		// 实现一个方法，传入一个对象，返回这个对象的拷贝
+
+		//仅能处理JSON方法，浅拷贝
+		// function Clone(obj) {
+		// 	var str = JSON.stringify(obj);
+		// 	return JSON.parse(str); 
+		// }
+		// var obj1 = {'name':1,'age':34,'borther':{'name':2}};
+		// var obj2 = Clone(obj1);
+		// console.log(obj2);
+
+
+		//深拷贝
+		function Cloned(obj) {
+			var ret = {};
+			for(var name in obj) {
+				if(obj[name] instanceof Object) {
+					ret[name] = arguments.callee(obj[name]);
+				}else {
+					ret[name]= obj[name];
+				}
+			}
+			return ret;
+		}
+
+		var obj = {'name':1,'age':34,'borther':{'name':2}};
+		console.log(Cloned(obj));
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>asynchronous</title>
+	<style>
+		/*css3动画*/
+		/*div {
+            width: 200px;
+            height: 200px;
+            background:red;  
+            -webkit-transition: background 3s ease;
+            transition: background 3s ease;          
+        }
+        div:hover{
+            background: green;
+        } */
+        div {
+            width: 200px;
+            height: 200px;
+            background:red;                  
+        }       
+	</style>
+</head>
+<body>
+	<div></div>
+	<script>
+		var oDiv = document.getElementsByTagName('div')[0];
+		var red = 255,green = 0;	
+			var timer =  setInterval(function(){
+				red--;green++;				
+				oDiv.style.background = 'rgb('+red+','+green+',0)';
+				if(green==255) {
+					clearInterval(timer);
+				}				
+			},3000/255);
+
+		//月影老师例子
+		var start = Date.now(),
+    	dur = 3000;
+		var body = document.body;
+
+		requestAnimationFrame(function f(){
+  			var p = (Date.now() - start) / dur;
+  			if(p < 1){
+			    var r = 0 | (255 * (1 - p)), 
+			        g = 0 | (255 * p), 
+			        b = 0 | (255 * Math.sin(p * Math.PI));
+    			body.style.backgroundColor = "rgb(" + [r, g, b] + ")";
+    			requestAnimationFrame(f);
+  			}else{
+    			body.style.backgroundColor = "rgb(0, 255, 0)";
+  			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// var a = '({name:"jame",age:13});/';
+		// var b = eval(a);
+		// console.log(b);
+		function Person(name,age){
+			this.name = name;
+			this.age = age;
+		}
+		Person.prototype.sleep = function(){
+			console.log('sleeping~'+this.name);
+		}
+		function extend(Cls){
+			function Fn(){
+				Cls.apply(this,arguments);
+			}
+			/*重点------------------------------------------------------------------------*/
+			function Fn2(){}
+			Fn2.prototype = Cls.prototype;
+			Fn.prototype = new Fn2();
+			/*重点------------------------------------------------------------------------*/
+			Fn.prototype.constructor = Fn;
+			return Fn;
+		}
+		var Black = extend(Person);
+		Black.prototype.speak = function(){
+			console.log('speak english');
+		}
+		var black = new Black("james",19);
+		black.sleep();
+		black.speak();
+	</script>
+</body>
+</html>

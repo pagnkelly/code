@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Function</title>
+</head>
+<body>
+	<script>
+	//数组的排序：实现一个方法，将数值以“3”为中心进行排序，越接近3的排在越前面
+	function threeSort(arr) {
+		return arr.sort(function(a,b){return Math.abs(a-3)-Math.abs(b-3);})
+	}
+	var arr = [-1,2,4,6,8]
+	console.log(threeSort(arr));
+
+
+	//实现一个函数，传入一系列数字，求这些数字的和
+	function Sum(arr) {
+		return arr.reduce(function(a,b){ return a+b},0);
+	}
+	var arr = [1,2,3,4,5]
+	console.log(Sum(arr));
+
+
+	// //实现一个方法，将函数的arguments转换为一个真正的数组对象
+	function reverses() {
+		return [].slice.call(arguments).reverse();
+		// return Array.prototype.slice.call(arguments).reverse();
+	}	
+	console.log(reverses(1,2,3,4));
+	</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Animation</title>
+	<style>
+		#div {
+			width: 20px;
+			height: 20px;
+			background: green;
+			position: relative;
+			top:100;
+			left:100;
+		}
+		#rote {
+			width: 20px;
+			height: 20px;
+			background: green;
+			border-radius: 50%;
+			position: relative;
+			top:100;
+			left:100;
+		}
+	</style>
+</head>
+<body>	
+	<div id="div"></div>
+	<div id="rote"></div>
+	<script>
+	// 将一个 20px * 20px 的绿色滑块从(100,100)位置匀速运动到(100,300)位置，耗费时间2s
+	var oDiv = document.getElementById('div');
+	// var left = oDiv.offsetLeft;
+	// 	var timer = setInterval(function(){
+	// 		left += 1;
+	// 		oDiv.style.left = left+'px';
+	// 		if(left >= 300) {
+	// 			clearInterval(timer);
+	// 		}
+	// 	},10);
+	// 将一个 20px * 20px 的绿色滑块从(100,100)位置匀加速运动到(100,300)位置，耗费时间2s
+	
+	// 编写一个效果，让一个红色小球围绕(80,80)的位置，以45px为半径，做匀速圆周运动动画，动画周期2s
+	var oDiv = document.getElementById('rote');
+	var left = oDiv.offsetLeft,
+		top = oDiv.offsetTop;
+	
+		var timer = setInterval(function() {
+			var leftn += left+45*Math.sin(Math.PI/1000);
+			var topn += top+45*Math.cos(Math.PI/1000);
+			oDiv.style.left = leftn +'px';
+			oDiv.style.top = topn + 'px';
+		},1)
+	</script>
+</body>
+</html>

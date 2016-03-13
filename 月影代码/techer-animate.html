@@ -1,0 +1,39 @@
+<button onclick="start()">开始</button>
+<span id="block"></span>
+<style type="text/css">
+body {background:white;}
+#block {
+  position:absolute;
+  width:20px;
+  height:20px;
+  left:80px;
+  top:80px;
+  background:red;
+  border-radius:50%;
+}
+</style>
+<script type="text/javascript">
+var block = document.getElementById("block");
+
+function start(){'use strict'
+  var dur = 2000; //dur: 动画的时间长度
+  var p = 0;  
+  //p: progress - 从0到1， 
+  //动画的进度，是动画最重要的一个概念
+  var startTime = Date.now();
+
+  requestAnimationFrame(function f(){
+    //if(p >= 1){
+      //p = 1.0;  //动画结束
+    //}else{
+      p = (Date.now() - startTime) / dur;
+      requestAnimationFrame(f);
+    //}
+    block.style.left = 80 + 
+      Math.sin(Math.PI * 2 * p) * 45 + 'px'; //动画进行中
+    
+     block.style.top = 80 + 
+      Math.cos(Math.PI * 2 * p) * 45 + 'px'; //动画进行中   
+  });
+}
+</script> 

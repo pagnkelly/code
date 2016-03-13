@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>倒计时</title>
+</head>
+<body>
+	<script>
+	//模拟倒计时
+		function tick(m){
+			for(var i = m; i > 0 ; i--){
+		      (function(i){
+				setTimeout(function(){
+					console.log(i);
+				}, (m-i+1) * 1000);
+		      })(i);
+			}
+		}
+	tick(10);
+	</script>
+</body>
+</html>

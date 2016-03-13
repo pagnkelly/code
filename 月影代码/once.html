@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>once</title>
+</head>
+<body>
+	<script>
+		function once(fn){
+			return function(){
+				if(fn){
+					var ret = fn.apply(this, arguments);
+					fn = null;
+					return ret;
+				}else{
+					return null;
+				}
+			}
+		}
+
+		function output(message){
+			console.log(message);
+		}
+
+		var outputOnce = once(output);
+		output("abc");
+		output("abc");
+		output("abc");
+	</script>
+</body>
+</html>

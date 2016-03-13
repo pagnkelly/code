@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Prototype</title>
+</head>
+<body>
+	<script>
+	//数组的删除：在数组上实现一个remove方法，用来删除指定的多个元素，返回被删除掉的元素数组
+		Array.prototype.remove = function(arr) {
+			var first = [].slice.call(arguments);//将变量放到一个数组中
+			var ret =[];
+			for (var i=0;i<first.length;i++) {
+				 ret.push(this.splice(this.indexOf(first[i]),1));
+			}
+			// console.log(first);
+			return ret;
+		}
+
+		var arr = [1,2,3,4,5];
+		arrD = arr.remove(2,4);
+		console.log(arr);
+		console.log(arrD);
+	</script>
+</body>
+</html>

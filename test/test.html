@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+body,html{
+	height: 100%;
+}
+.container{
+		height: 100%;
+        display:-moz-box;
+        display:-webkit-box;
+         -webkit-box-orient: vertical; 
+        }
+        
+.sider_l{
+        width:100%;
+        height: 200px;
+        -moz-box-ordinal-group:1;
+        -webkit-box-ordinal-group:1;                
+        background:limegreen;
+        }
+.middle_content{
+        -moz-box-flex:1;
+        -webkit-box-flex:1;
+        -moz-box-ordinal-group:2;
+        -webkit-box-ordinal-group:2;
+        background:lightpink;                
+        }        
+.sider_r{
+        width:100%;
+        height: 300px;
+        -moz-box-ordinal-group:3;
+        -webkit-box-ordinal-group:3;                
+        background:green;                
+        }                        
+</style>
+</head>
+<body>
+	 <div class="container">
+            <div class="middle_content">优先加载主内容区</div>
+        <div class="sider_l">左边栏</div>
+                <div class="sider_r">右边栏</div>            
+    </div>
+	<script>
+		// var foo=1;
+		// function bar () {
+		// 	// body...
+		// 	foo=10;
+		// 	return;
+		// 	function foo(){} 
+		// }
+		// bar();
+		// alert(foo);
+	</script>
+</body>
+</html>

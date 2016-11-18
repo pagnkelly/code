@@ -1,0 +1,74 @@
+<ul class="hscen" cmpp-type="d">
+	<#if data??> 
+<#list data as item>
+                	<li <#if item_index lt 1>class="cur"</#if>>
+                    	<h2><a href="${item.url!''}" target="_blank">${stringPlugin.subString(item.title,16,'')}</a></h2>
+                        <p>${stringPlugin.subString(item.summary,30,'')}</p>
+                        <div class="athr">
+
+							<#if item.keywords??>
+							<#list item.keywords as item2>
+                        	<a href="" target="_blank">${item2!''}</a>
+							           </#list> 
+								</#if>    
+							
+
+
+                        </div>
+
+                    </li>
+           </#list> 
+</#if>         
+                  
+                </ul>
+
+
+<ul class="hscen" cmpp-type="d">
+                	<li class="cur">
+                    	<h2><a href="http://www.ifeng.com" target="_blank">陕西出租车经营权将全部实</a></h2>
+                        <p>周三开盘，上证报30陕西出租车权将全部实行无偿使用21.58点</p>
+                        <div class="athr"><a href="" target="_blank">关键字</a><a href="" target="_blank">关键字</a><a href="" target="_blank">关键字</a></div>
+
+                    </li>
+                    
+                    <li>
+                    	<h2><a href="#" target="_blank">陕西出租车经营权将全部实</a></h2>
+                        <p>周三开盘，上证报30陕西出租用21.58点，跌幅0.05%；0.</p>
+                        <div class="athr"><a href="" target="_blank">关键字</a><a href="" target="_blank">关键字</a></div>
+
+                    </li>
+                    
+                    <li>
+                    	<h2><a href="#" target="_blank">陕西出租车经营权将全部实</a></h2>
+                        <p>周三开盘，上证报30陕西出租车权将全8点，跌幅0.05%；0.</p>
+                        <div class="athr"><a href="" target="_blank">关键字</a><a href="" target="_blank">关键字</a></div>
+
+                    </li>
+                </ul>
+
+
+
+
+
+
+
+
+                 <ul class="newslist" cmpp-type="d">
+                 		<#if data??> 
+<#list data as item>
+                	 <li><a href="${item.url!''}" target="_blank">${stringPlugin.subString(item.title,25,'')}</a></li>
+        </#list> 
+
+
+                	       
+</#if>         
+        
+                </ul>
+
+                  <ul class="newslist" cmpp-type="d">
+    <#if data??> 
+<#list data as item>
+   <li><a href="${item.url!''}" target="_blank">${stringPlugin.subString(item.title,25,'')}</a></li>
+        </#list> 	       
+</#if>         
+                </ul>

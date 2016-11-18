@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html data-dpr="2" style="font-size: 46.875px;"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2016凰家嗨玩节</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+
+    <script>
+        window.mobileUtil = (function(win, doc) {
+            var UA = navigator.userAgent,
+                isAndroid = /android|adr/gi.test(UA),
+                isIos = /iphone|ipod|ipad/gi.test(UA) && !isAndroid, // 据说某些国产机的UA会同时包含 android iphone 字符
+                isMobile = isAndroid || isIos;  // 粗略的判断
+
+            return {
+                isAndroid: isAndroid,
+                isIos: isIos,
+                isMobile: isMobile,
+
+                isNewsApp: /NewsApp\/[\d\.]+/gi.test(UA),
+                isWeixin: /MicroMessenger/gi.test(UA),
+                isQQ: /QQ\/\d/gi.test(UA),
+                isYixin: /YiXin/gi.test(UA),
+                isWeibo: /Weibo/gi.test(UA),
+                isTXWeibo: /T(?:X|encent)MicroBlog/gi.test(UA),
+
+                tapEvent: isMobile ? 'tap' : 'click',
+
+                /**
+                 * 缩放页面
+                 */
+                fixScreen: function() {
+                    var metaEl = doc.querySelector('meta[name="viewport"]'),
+                        metaCtt = metaEl ? metaEl.content : '',
+                        matchScale = metaCtt.match(/initial\-scale=([\d\.]+)/),
+                        matchWidth = metaCtt.match(/width=([^,\s]+)/);
+
+                    if ( !metaEl ) { // REM
+                        var docEl = doc.documentElement,
+                            maxwidth = docEl.dataset.mw || 750, // 每 dpr 最大页面宽度
+                            dpr = isIos ? Math.min(win.devicePixelRatio, 3) : 1,
+                            scale = 1 / dpr,
+                            tid;
+                        window.dpr = dpr;
+                        docEl.removeAttribute('data-mw');
+                        docEl.dataset.dpr = dpr;
+                        metaEl = doc.createElement('meta');
+                        metaEl.name = 'viewport';
+                        metaEl.content = fillScale(scale);
+                        docEl.firstElementChild.appendChild(metaEl);
+
+                        var refreshRem = function(change) {
+                            var width = change? change: docEl.getBoundingClientRect().width;
+                            if (width / dpr > maxwidth) {
+                                width = maxwidth * dpr;
+                            }
+                            var rem = width / 16;
+                            docEl.style.fontSize = rem + 'px';
+                        };
+                        window.refreshRem = refreshRem;
+
+                        win.addEventListener('resize', function() {
+                            clearTimeout(tid);
+                            tid = setTimeout(refreshRem, 300);
+                        }, false);
+                        win.addEventListener('pageshow', function(e) {
+                            if (e.persisted) {
+                                clearTimeout(tid);
+                                tid = setTimeout(refreshRem, 300);
+                            }
+                        }, false);
+
+                        refreshRem();
+                    } else if ( isMobile && !matchScale && ( matchWidth && matchWidth[1] != 'device-width' ) ) { // 定宽
+                        var width = parseInt(matchWidth[1]),
+                            iw = win.innerWidth || width,
+                            ow = win.outerWidth || iw,
+                            sw = win.screen.width || iw,
+                            saw = win.screen.availWidth || iw,
+                            ih = win.innerHeight || width,
+                            oh = win.outerHeight || ih,
+                            ish = win.screen.height || ih,
+                            sah = win.screen.availHeight || ih,
+                            w = Math.min(iw,ow,sw,saw,ih,oh,ish,sah),
+                            scale = w / width;
+
+                        if ( scale < 1 ) {
+                            metaEl.content = metaCtt + ',' + fillScale(scale);
+                        }
+                    }
+
+                    function fillScale(scale) {
+                        return 'width=device-width initial-scale=' + scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale;
+                    }
+                },
+
+                /**
+                 * 转href参数成键值对
+                 * @param href {string} 指定的href，默认为当前页href
+                 * @returns {object} 键值对
+                 */
+                getSearch: function(href) {
+                    href = href || win.location.search;
+                    var data = {},reg = new RegExp( "([^?=&]+)(=([^&]*))?", "g" );
+                    href && href.replace(reg,function( $0, $1, $2, $3 ){
+                        data[ $1 ] = $3;
+                    });
+                    return data;
+                }
+            };
+        })(window, document);
+
+        // 默认直接适配页面
+        mobileUtil.fixScreen();
+    </script><meta name="viewport" content="width=device-width initial-scale=0.5,maximum-scale=0.5,minimum-scale=0.5">
+    <script src="http://y1.ifengimg.com/fe/jQuery/jquery-2.2.0.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <style type="text/css">
+        @charset "UTF-8";
+        /*重置样式*/
+      
+        body, div, p, input, form {
+          padding: 0;
+          margin: 0; }
+
+        .clearfix:after {
+          content: ".";
+          display: block;
+          height: 0;
+          clear: both;
+          visibility: hidden; }
+            .wholeCont{
+            width:100%;
+            height:100%}
+        /*swiper  基础样式begin*/
+        html, body {
+          position: relative;
+          height: 100%; }
+
+        body {
+          background: #eee;
+          font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+          font-size: 14px;
+          color: #000;
+          margin: 0;
+          padding: 0; }
+
+        .swiper-container {
+          position: relative;
+          width: 100%;
+          height: 100%; }
+
+        .swiper-slide {
+          text-align: center;
+          font-size: 18px;
+          background: #fff;
+          /* Center slide text vertically */
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          -webkit-align-items: center;
+          align-items: center; }
+
+        /*swiper  基础样式end*/
+        .swiper-slide {
+          position: relative;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+          /*background-size: cover;
+            background-position: 50% 50%;*/ }
+          .swiper-slide .hiPlay {
+            position: absolute;
+            bottom: 1.28rem;
+            left: 50%;
+            margin-left: -6.82667rem;
+            width: 13.65333rem;
+            height: 2.13333rem;
+            background-color: #484215; }
+            .swiper-slide .hiPlay .hiPlayBtn {
+              margin: 0.21333rem auto;
+              width: 13.184rem;
+              height: 1.70667rem;
+              line-height: 1.70667rem;
+              text-align: center;
+              font-size: 0.64rem;
+              color: #000;
+              background-color: #fbea35; }
+          .swiper-slide .jiantou {
+            position: absolute;
+            bottom: 1.49333rem;
+            left: 50%;
+            margin-left: -0.42667rem;
+            width: 0.87467rem;
+            height: 0.768rem;
+            background: url(http://p1.ifengimg.com/a/2016/1025/hiplay/jiantou.png) no-repeat;
+            background-size: 100% 100%;
+            /*background-size: cover;
+                background-position: 50% 50%;*/
+            -webkit-animation: start 1.5s infinite ease-in-out;
+            -moz-animation: start 1.5s infinite ease-in-out;
+            animation: start 1.5s infinite ease-in-out;
+            z-index: 6; }
+
+        /*箭头动画相关 begin*/
+        @-webkit-keyframes start {
+          0%, 30% {
+            opacity: 0;
+            -webkit-transform: translate(0, 10px); }
+          60% {
+            opacity: 1;
+            -webkit-transform: translate(0, 0); }
+          100% {
+            opacity: 0;
+            -webkit-transform: translate(0, -8px); } }
+
+        @-moz-keyframes start {
+          0%, 30% {
+            opacity: 0;
+            -moz-transform: translate(0, 10px); }
+          60% {
+            opacity: 1;
+            -moz-transform: translate(0, 0); }
+          100% {
+            opacity: 0;
+            -moz-transform: translate(0, -8px); } }
+
+        @keyframes start {
+          0%, 30% {
+            opacity: 0;
+            transform: translate(0, 10px); }
+          60% {
+            /* opacity: 1; */
+            /* transform: translate(0,0); */ }
+          100% {
+            /* opacity: 0; */
+            /* transform: translate(0,-8px); */ } }
+
+        /*箭头动画相关 end*/
+        .signUpP {
+          display: none;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          background: url(http://p1.ifengimg.com/a/2016/1025/hiplay/signinbg.jpg) no-repeat;
+          background-size: 100% 100%; }
+          .signUpP .tickerInner {
+            width: 13.65333rem;
+            margin: 0 auto;
+            padding-top: 0.85333rem; }
+            .signUpP .tickerInner .introTop {
+              width: 12.864rem;
+              height: 3.328rem;
+              background: url(http://p1.ifengimg.com/a/2016/1025/hiplay/subInfoBg.png) no-repeat;
+              background-size: 100% 100%;
+              margin: 0 auto; }
+            .signUpP .tickerInner .signCont {
+              position: relative;
+              width: 13.568rem;
+              height: 15.57333rem;
+              border: 3px solid #c6c6c6;
+              background: #131111;
+              margin-top: 0.96rem; }
+              .signUpP .tickerInner .signCont form {
+                width: 11.52rem;
+                height: 10.45333rem;
+                margin: 2.77333rem auto; }
+                .signUpP .tickerInner .signCont form p {
+                  width: 100%;
+                  height: 1.70667rem;
+                  line-height: 1.70667rem;
+                  margin-bottom: 0.64rem;
+                  color: #fff; }
+                  .signUpP .tickerInner .signCont form p label {
+                    float: left;
+                    font-size: 0.768rem; }
+                  .signUpP .tickerInner .signCont form p input {
+                    float: right;
+                    width: 9.17333rem;
+                    height: 1.70667rem;
+                    background: #2b2929;
+                    border-radius: 2px;
+                    border: none;
+                    color: #fff;
+                    padding-left: 0.42667rem;
+                    font-size: 0.68267rem; }
+                .signUpP .tickerInner .signCont form .error {
+                  width: 100%;
+                  height: 1.70667rem;
+                  line-height: 1.70667rem;
+                  font-size: 0.72533rem;
+                  color: #fff;
+                  display: inline-block;
+                  text-align: left; }
+                .signUpP .tickerInner .signCont form .infoSub {
+                  position: absolute;
+                  bottom: 2.56rem;
+                  left: 50%;
+                  margin-left: -5.33333rem;
+                  width: 10.66667rem;
+                  height: 1.70667rem;
+                  line-height: 1.70667rem;
+                  background: #fbea35;
+                  text-align: center;
+                  font-size: 0.768rem;
+                  color: #131111;
+                  border-radius: 8px; }
+
+        .ticketP {
+          display: none;
+          position: relative;
+          width: 100%;
+          height: 100%;
+          background: url(http://p1.ifengimg.com/a/2016/1025/hiplay/footerbg.jpg) no-repeat;
+          background-size: cover;
+          background-position: 50% 50%;
+          overflow: hidden; }
+          .ticketP .ticketMain {
+            position: relative;
+            width: 13.73867rem;
+            height: 23.46667rem;
+            margin: 0 auto; }
+            .ticketP .ticketMain .successTip {
+              width: 100%;
+              height: auto;
+              text-align: center;
+              padding-top: 0.64rem;
+              margin: 0 auto; }
+              .ticketP .ticketMain .successTip p {
+                height: 0.85333rem;
+                line-height: 0.85333rem;
+                margin-top: 0.64rem;
+                color: #fff;
+                font-size: 0.55467rem; }
+              .ticketP .ticketMain .successTip img {
+                width: 8.72533rem;
+                height: 0.85333rem; }
+            .ticketP .ticketMain .ticketCont {
+              position: relative;
+              width: 13.248rem;
+              height: 17.13067rem;
+              margin: 0.64rem auto 0;
+              background: url(http://p1.ifengimg.com/a/2016/1025/hiplay/endpTextBg.png) no-repeat;
+              background-size: 100% 100%;
+              /*background-size: cover;
+                    background-position: 50% 50%;*/ }
+              .ticketP .ticketMain .ticketCont .ticketInfo {
+                position: absolute;
+                left: 0.42667rem;
+                top: 0.42667rem;
+                width: 12.16rem; }
+                .ticketP .ticketMain .ticketCont .ticketInfo .excel {
+                  width: 11.22133rem;
+                  height: 10.02667rem;
+                  margin: 0.64rem auto 0;
+                  border: 2px solid #6d7980; }
+                  .ticketP .ticketMain .ticketCont .ticketInfo .excel .title {
+                    width: 100%;
+                    height: 2.56rem;
+                    text-align: center;
+                    border-bottom: 2px solid #6d7980; }
+                    .ticketP .ticketMain .ticketCont .ticketInfo .excel .title img {
+                      width: 5.01333rem;
+                      height: 1.49333rem;
+                      padding-top: 0.512rem; }
+                  .ticketP .ticketMain .ticketCont .ticketInfo .excel .wish {
+                    width: 100%;
+                    height: 2.38933rem;
+                    line-height: 2.38933rem;
+                    text-align: center;
+                    font-size: 0.55467rem;
+                    color: #5c1f1d;
+                    border-bottom: 2px solid #6d7980; }
+                  .ticketP .ticketMain .ticketCont .ticketInfo .excel .nameTime {
+                    width: 100%;
+                    height: 2.47467rem;
+                    border-bottom: 2px solid #6d7980; }
+                    .ticketP .ticketMain .ticketCont .ticketInfo .excel .nameTime p {
+                      float: left; }
+                    .ticketP .ticketMain .ticketCont .ticketInfo .excel .nameTime .name {
+                      width: 3.88267rem;
+                      padding-left: 0.55467rem;
+                      height: 100%;
+                      border-right: 2px solid #6d7980;
+                      font-size: 0.896rem;
+                      color: #5c1f1d; }
+                      .ticketP .ticketMain .ticketCont .ticketInfo .excel .nameTime .name span {
+                        font-size: 0.512rem;
+                        color: #305061; }
+                    .ticketP .ticketMain .ticketCont .ticketInfo .excel .nameTime .time {
+                      padding-top: 0.384rem;
+                      padding-left: 0.55467rem;
+                      font-size: 0.512rem;
+                      color: #5c1f1d; }
+                      .ticketP .ticketMain .ticketCont .ticketInfo .excel .nameTime .time span {
+                        color: #305061; }
+                  .ticketP .ticketMain .ticketCont .ticketInfo .excel .place {
+                    padding-left: 0.55467rem;
+                    padding-top: 0.21333rem;
+                    font-size: 0.55467rem;
+                    color: #5c1f1d; }
+                    .ticketP .ticketMain .ticketCont .ticketInfo .excel .place span {
+                      font-size: 0.512rem;
+                      color: #305061; }
+              .ticketP .ticketMain .ticketCont .qrcode {
+                position: absolute;
+                left: 0.42667rem;
+                bottom: 0.81067rem;
+                width: 12.16rem;
+                height: 3.328rem; }
+                .ticketP .ticketMain .ticketCont .qrcode img {
+                  display: inline-block;
+                  float: left;
+                  margin-left: 1.06667rem;
+                  width: 3.328rem;
+                  height: 3.328rem; }
+                .ticketP .ticketMain .ticketCont .qrcode p {
+                  float: right;
+                  margin-right: 0.42667rem;
+                  margin-top: 1.024rem;
+                  width: 6.82667rem;
+                  height: 1.28rem;
+                  line-height: 0.64rem;
+                  font-size: 0.55467rem;
+                  color: #333; }
+            .ticketP .ticketMain .getTicket {
+              position: absolute;
+              bottom: 0;
+              width: 13.65333rem;
+              height: 2.13333rem;
+              margin: 0 auto;
+              background-color: #484215; }
+              .ticketP .ticketMain .getTicket .getTicketBtn {
+                margin: 0.21333rem 0.23467rem;
+                font-size: 0.64rem;
+                color: #000;
+                width: 13.184rem;
+                height: 1.70667rem;
+                line-height: 1.70667rem;
+                background-color: #fbea35;
+                text-align: center; }
+          .ticketP .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1.28rem;
+            background: url(http://p1.ifengimg.com/a/2016/1025/hiplay/logoBottom.jpg) no-repeat;
+            background-size: 100% 100%; }
+
+        .ticketGetP {
+          display: none;
+          position: relative;
+          width: 100%;
+          height: 100%;
+          background: #2a2a2a; }
+          .ticketGetP .ticketMain {
+            padding-top: 1.06667rem;
+            margin: 0 auto;
+            width: 13.78133rem; }
+            .ticketGetP .ticketMain .titleTip {
+              width: 12.16rem;
+              height: 0.85333rem;
+              margin: 0 auto;
+              background: url(http://p1.ifengimg.com/a/2016/1025/hiplay/ticketGetTip.png) no-repeat;
+              background-size: 100% 100%; }
+            .ticketGetP .ticketMain .ticketCont {
+              padding-top: 1.49333rem;
+              width: 13.65333rem;
+              height: 13.86667rem;
+              background: #404040;
+              margin: 1.70667rem auto 0; }
+              .ticketGetP .ticketMain .ticketCont .parValue {
+                height: 1.28rem;
+                line-height: 1.28rem;
+                text-align: center;
+                font-size: 0.768rem;
+                color: #fff; }
+              .ticketGetP .ticketMain .ticketCont .codeShow {
+                width: 6.99733rem;
+                height: 2.752rem;
+                margin: 1.49333rem auto;
+                padding-top: 0.42667rem;
+                border-radius: 3px;
+                background: #ff9000;
+                color: #333;
+                font-size: 0.64rem;
+                text-align: center; }
+                .ticketGetP .ticketMain .ticketCont .codeShow .code {
+                  font-size: 0.93867rem; }
+                .ticketGetP .ticketMain .ticketCont .codeShow .tip {
+                  font-size: 0.42667rem; }
+              .ticketGetP .ticketMain .ticketCont .getInfo {
+                width: 10.88rem;
+                height: auto;
+                margin-left: 1.6rem;
+                margin-bottom: 0.74667rem;
+                font-size: 0.512rem;
+                color: #fff; }
+                .ticketGetP .ticketMain .ticketCont .getInfo span {
+                  color: #f2e236;
+                  padding-right: 0.128rem;
+                  float: left; }
+                .ticketGetP .ticketMain .ticketCont .getInfo p {
+                  float: left;
+                  width: 8.10667rem;
+                  line-height: 0.64rem; }
+              .ticketGetP .ticketMain .ticketCont .hasCodeTip {
+                width: 10.88rem;
+                height: auto;
+                margin: 0 auto;
+                margin-left: 1.6rem;
+                line-height: 0.64rem;
+                font-size: 0.512rem;
+                color: #fff; }
+            .ticketGetP .ticketMain .noTicket {
+              display: none;
+              width: 13.65333rem;
+              height: 13.22667rem;
+              margin: 1.70667rem auto 0;
+              background: url(http://p1.ifengimg.com/a/2016/1025/hiplay/noticket.jpg) no-repeat;
+              background-size: 100% 100%; }
+            .ticketGetP .ticketMain .moreTip {
+              position: absolute;
+              bottom: 4.05333rem;
+              left: 50%;
+              margin-left: -3.62667rem;
+              width: 7.232rem;
+              height: 0.61867rem;
+              background: url(http://p1.ifengimg.com/a/2016/1025/hiplay/moreGift.png) no-repeat center center;
+              background-size: 100% 100%; }
+            .ticketGetP .ticketMain .shareOther {
+              position: absolute;
+              bottom: 1.28rem;
+              width: 13.65333rem;
+              height: 2.13333rem;
+              margin: 0 auto;
+              background-color: #484215; }
+              .ticketGetP .ticketMain .shareOther .shareOtherBtn {
+                margin: 0.21333rem 0.23467rem;
+                font-size: 0.64rem;
+                color: #000;
+                width: 13.184rem;
+                height: 1.70667rem;
+                line-height: 1.70667rem;
+                background-color: #fbea35;
+                text-align: center;
+                border: none; }
+          .ticketGetP .sharePoint {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url(http://p1.ifengimg.com/a/2016/1025/hiplay/sharePoint.png) no-repeat;
+            background-size: 100% 100%; }
+
+    </style>
+<link media="screen" href="http://p1.ifengimg.com/a/2016/1025/hiplay/swiper.min.css" rel="stylesheet"></head><body><div class="wholeCont">
+  <div class="swiper-container swiper-container-vertical">
+        <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(0px, -1334px, 0px);">
+            <div class="swiper-slide swiper-slide-prev" style="background-image: url(&quot;http://p1.ifengimg.com/a/2016/1025/hiplay/beginbg.jpg&quot;); height: 1334px;"><div class="jiantou"></div></div>
+            <div class="swiper-slide swiper-slide-active" style="background-image: url(&quot;http://p1.ifengimg.com/a/2016/1025/hiplay/introbg1.jpg&quot;); height: 1334px;"><div class="jiantou"></div></div>
+            <div class="swiper-slide swiper-slide-next" style="background-image: url(&quot;http://p1.ifengimg.com/a/2016/1025/hiplay1/introbgtwo.jpg&quot;); height: 1334px;">
+                <div class="hiPlay">
+                    <div class="hiPlayBtn">加入识装嗨玩团</div>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <!-- 注册页-->
+    <div class="signUpP">
+        <div class="tickerInner">
+            <div class="introTop"></div>
+            <div class="signCont">
+                <form action="" method="post"> 
+                    <p> 
+                        <label for="name">姓名</label> 
+                        <input type="text" name="name"> 
+                    </p> 
+                    <p> 
+                        <label for="phonenum">电话</label> 
+                        <input type="text" name="phonenum"> 
+                    </p>
+                    <span class="error"></span>
+                    <div type="div" id="btn" class="infoSub">提交获取门票</div> 
+               </form>
+            </div>
+        </div>       
+    </div>
+    <!-- 门票页 -->
+    <div class="ticketP">
+        <div class="ticketMain">
+            <div class="successTip">
+                <img src="http://p1.ifengimg.com/a/2016/1025/hiplay/signSuccess.png">
+                <p>请携带此电子门票活动现场签到，参与抽奖！</p>
+            </div>
+            <div class="ticketCont">
+                <div class="ticketInfo">
+                    <div class="excel">
+                        <p class="title"><img src="http://p1.ifengimg.com/a/2016/1025/hiplay/hjhwj.png"></p>
+                        <p class="wish">恭喜你成为“识装嗨玩团”团员！</p>
+                        <div class="nameTime">
+                            <p class="name"><span>NAME</span><br>解忠天</p>
+                            <p class="time"><span>TIME</span><br>2016.11.19(10:30~19:00)<br>2016.11.20(10:30~19:00)</p>
+                        </div>
+                        <div class="place"><span>PLACE</span><br>中国电影导演中心(北京市朝阳区酒仙桥北路9号恒通国际创新园C座)</div>
+                    </div>
+                </div>
+                <div class="qrcode">
+                    <img src="http://p1.ifengimg.com/a/2016/1025/hiplay/qrcode.jpg">
+                    <p>添加装夫人的小喇叭微信，获取更多嗨玩节一手资讯~</p>
+                </div>
+            </div>
+            <div class="getTicket">
+                <div class="getTicketBtn">领取20元电影票代金券</div>
+            </div>
+        </div>
+        
+    </div>
+    <!-- 得券页 -->
+    <div class="ticketGetP">
+        <div class="ticketMain">
+            <div class="titleTip"> </div>
+            <div class="ticketCont">
+                <p class="parValue">20元观影抵值券</p>
+                <p class="codeShow">
+                    兑换码：<br>
+                    <span class="code" id="code">4aaac5b4</span><br>
+                    <span class="tip">(长按复制兑换码)</span>
+                </p>
+                <div class="getInfo clearfix">
+                    <span>兑换方式:</span>
+                    <p>下载“钱宝有票”手机客户端选购电影票，支付页选择“票券”输入该抵值券兑换码使用</p>
+                    
+                </div>
+                <div class="getInfo clearfix">
+                    <span>兑换期限:</span>
+                    <p>2016年12月31日</p>
+                </div>
+                <p class="hasCodeTip">您已领取过电影票兑换券~</p>
+            </div>
+            <div class="noTicket"></div>
+            <div class="moreTip"></div>
+            <div class="shareOther">
+                <div class="shareOtherBtn">一个人去多寂寞，约小伙伴一起嗨！</div>
+            </div>
+        </div> 
+        <div class="sharePoint"></div> 
+    </div>
+    
+    <script src="http://p1.ifengimg.com/a/2016/1025/hiplay/swiper.min.js"></script>
+    <script>
+        //前三页滑动
+        var swiper = new Swiper('.swiper-container', {
+            paginationClickable: true,
+            direction: 'vertical'
+        });
+    </script>
+    <script>
+        (function($){  
+            //var codeRandom;
+            var store = window.localStorage;
+
+            //第四页 加入识装 点击
+            $(".hiPlay").on('touchend click',function(){
+                $(".swiper-container").hide().siblings(".signUpP").show();
+            })
+            // 第五页  注册 信息提交页         
+            $("#btn").on('touchend',function(){
+                console.log("er3434");
+                var name=$("input[name=name]").val(), 
+                phonenum=$("input[name=phonenum]").val();
+                
+                if(!name){
+                    $('.signCont span').html('请输入名字');
+                    return false;
+                }
+                if(!(/^1[34578]\d{9}$/.test(phonenum))){ 
+                    $('.signCont span').html('手机号码有误，请重填');
+                    return false; 
+                } 
+                //第六页  领取代金券
+                function showCode(codeRandom){
+                    //console.log(codeRandom);
+                    var thisParent = $(".ticketP");
+                    setTimeout(function(){
+                        thisParent.hide().next().show();
+                        $(".ticketCont").show();
+                        $("#code").html(codeRandom);
+
+                    },500) 
+                }
+                if(store && store.setItem){
+                    var codeRandom = store.getItem(phonenum);
+                    //console.log(codeRandom);
+                    if(codeRandom){
+                        // var hasCode =  store.getItem(codeRandom);
+                        // console.log(hasCode);
+                        $('.signCont span').html('您已报名');
+                        $(".ticketP").show().siblings().hide();
+                        $(".getTicket").on('touchend',function(){
+                            showCode(codeRandom);
+                        })
+                    }else{
+                        $.ajax({
+                            url: 'http://172.30.204.92:8103/index.php/play/playfestival',
+                            type: 'POST',
+                            dataType: 'jsonp',
+                            cache:true,
+                            data: {phonenum:phonenum,name:name},
+                            jsonp: 'callback',
+                            jsonpCallback: 'getcode',
+                            success: function(data){
+                                console.log(data);
+                                if (data.m == 'ok') {
+                                    var codeRandom = data.d.info; //保存到全局变量里，兑换页会用到
+                                    store.setItem(phonenum,codeRandom);
+                                    //console.log('store==',store);
+
+                                    $('.content span').html('成功');
+                                    $(".ticketP").show().siblings().hide();
+                                    $(".getTicket").on('touchend',function(){
+                                        showCode(codeRandom);
+                                    })
+                                }else if(data.m == '手机号已存在'){  
+                                    var hasCode =  store.getItem(phonenum);
+                                    //console.log('store==',store);
+                                    $('.signCont span').html('您已报名');
+                                    $(".ticketP").show().siblings().hide();
+                                    
+                                    $(".getTicket").on('touchend',function(){
+                                        showCode(hasCode);
+                                    })
+                                }else{
+                                    $('.signCont span').html('券已发完');  
+                                    $(".ticketP").show().siblings().hide();
+                                    $(".getTicket").on('touchend',function(){
+                                        $(".ticketCont").hide();
+                                        $(".noTicket").show();
+                                    })
+                                }
+                            },
+                            error: function(data){
+                                console.log(data);
+                            }
+                        });
+
+                    }
+
+                }
+                
+            })
+            
+            
+            //最后一页 分享
+            $(".shareOtherBtn").on('touchend click',function(event){
+                setTimeout(function(){
+                    $(".sharePoint").show();
+                },500)
+            })
+            $(".sharePoint").on('touchend click',function(){
+                $(this).hide(); 
+            })
+        })(jQuery);
+    </script>
+
+    <script>
+
+        //微信分享api
+        var sharetitle= "2016凰家嗨玩节:";
+        var sharelink= window.location.href;
+        var shareimgUrl= "http://y0.ifengimg.com/survey/20150710/logo_w400_h400.jpg";
+        var sharedesc= "2016凰家嗨玩节";
+        var shareTimeline = "2016凰家嗨玩节:";
+        $.ajax({
+            url: 'http://api.3g.ifeng.com/weishare_token_api',
+            type: 'get',
+            dataType: 'jsonp',
+            callback: 'wxshareCallback',
+            data: {
+                url: window.location.href
+            },
+            success: function (msg) {
+                wx.config({
+                    debug: false, //值为true时进入debug模式，可以打出状态值
+                    appId: msg.appId,
+                    timestamp: msg.timestamp,
+                    nonceStr: msg.nonceStr,
+                    signature: msg.signature,
+                    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo'
+                      // 所有要调用的 API 都要加到这个列表中
+                    ]
+                });
+                wx.ready(function () {
+                    wx.checkJsApi({
+                        jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                        success: function(res) {
+                            // 以键值对的形式返回，可用的api值true，不可用为false
+                          // console.log(res);
+                        }
+                    });
+
+                    wx.error(function(res){
+                       //console.log(res);
+                    })
+                    //获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
+                    wx.onMenuShareTimeline({
+                        title: shareTimeline, // 分享标题
+                        link: sharelink, // 分享链接
+                        imgUrl: shareimgUrl, // 分享图标
+                        success: function () { 
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () { 
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                    //获取“分享给朋友”按钮点击状态及自定义分享内容接口
+                    wx.onMenuShareAppMessage({
+                        title: sharetitle, // 分享标题
+                        desc: sharedesc, // 分享描述
+                        link: sharelink, // 分享链接
+                        imgUrl: shareimgUrl, // 分享图标
+                        type: 'link', // 分享类型,music、video或link，不填默认为link
+                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        success: function () { 
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () { 
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                    //获取“分享到QQ”按钮点击状态及自定义分享内容接口
+                    wx.onMenuShareQQ({
+                        title: sharetitle, // 分享标题
+                        desc: sharedesc, // 分享描述
+                        link: sharelink, // 分享链接
+                        imgUrl: shareimgUrl, // 分享图标
+                        success: function () { 
+                           // 用户确认分享后执行的回调函数
+                          //alert(shareimgUrl);
+                        },
+                        cancel: function () { 
+                           // 用户取消分享后执行的回调函数
+                        }
+                    });
+                    //获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口
+                    wx.onMenuShareWeibo({
+                        title: sharetitle, // 分享标题
+                        desc: sharedesc, // 分享描述
+                        link: sharelink, // 分享链接
+                        imgUrl: shareimgUrl, // 分享图标
+                        success: function () { 
+                           // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () { 
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+
+                    //获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
+                    wx.onMenuShareTimeline({
+                         title: sharetitle, // 分享标题
+                         link: sharelink, // 分享链接
+                         imgUrl: shareimgUrl, // 分享图标
+                         success: function () { 
+                            // 用户确认分享后执行的回调函数
+                         },
+                         cancel: function () { 
+                            // 用户取消分享后执行的回调函数
+                         }
+                    });
+                });
+            }
+        });
+    </script>
+</div><!-- 页尾通栏  --></body></html>

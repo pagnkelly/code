@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>table</title>
+	<style>
+	*{
+		padding: 0;
+		margin: 0;
+		font-size: 12px;
+	}
+	ul{
+		list-style: none;
+	}
+	a{
+		text-decoration: none;
+	}
+	.clearfix:before,.clearfix:after{
+		display: table;
+		content: '';
+		clear: both;
+	}
+	nav{
+		width: 980px;
+		height: 35px;
+		margin: 0 auto;
+		margin-top: 9px;
+		background: #fbfcfd;
+		border-bottom: 1px solid #dadada;
+	}
+	nav ul{
+		height: 28px;
+		float: right;
+		margin-right: 15px;
+		margin-top: 7px;
+	}
+	nav ul li{
+		width: 84px;
+		height: 28px;
+		border: 1px solid #dadada;
+		background: #f1f1f1;
+		float: right;
+		margin-right: 5px;
+		line-height: 28px;
+		text-align: center;
+	}
+	nav ul li:hover{
+		border-bottom: 1px solid #fff;
+		background: #fff;
+	}
+	nav ul .selected{
+		border-bottom: 1px solid #fff;
+		background: #fff;
+	}
+	.container{
+		width: 960px;
+		margin: 0 auto;
+	}
+	.container .search{
+		margin-top: 11px;
+	}
+	.search div{
+		float: left;
+		width: 66px;
+		height: 26px;
+		border-radius: 5px;
+		text-align: center;
+		line-height: 26px;
+		margin-right: 5px;
+		cursor: pointer;
+	}
+	.search .blue{
+		color: #fff;
+		background: #3775c0;
+	}
+	.search .red{
+		color: #fff;
+		background: #ff0000;
+	}
+	.search p{
+		float: left;
+		margin-right: 5px;
+		margin-left: 22px;
+	}
+	</style>
+</head>
+<body>
+	<nav >
+		<ul class="clearfix">
+			<li class="selected"><a href="">兑换记录</a></li>
+			<li><a href="">E币明细</a></li>
+			<li><a href="">E币兑换</a></li>
+		</ul>
+	</nav>
+	<div class="container">
+		<div class="search">
+			<div class="blue">全部</div>
+			<div>成功</div>
+			<div>失败</div>
+			<p>选择日期:<input type="date" />至<input type="date" /></p>
+			<div class="blue">搜索</div>
+			<div class="red">重置</div>
+		</div>
+		
+	</div>
+
+</body>
+</html>

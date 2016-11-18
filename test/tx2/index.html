@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	.container{
+		width: 1188px;
+		height: 477px;
+		margin: 0 auto;
+		background: #ccc;
+		overflow: hidden;
+	}
+	</style>
+</head>
+<body>
+	<div class="container"></div>
+
+	<script>
+		var oCon=document.querySelector('.container');
+		oCon.style.position="relative";
+		const imgSrc=["door1.png","door2.png","door3.png","door4.png"];
+		const containerWidth=oCon.offsetWidth;
+		const len=imgSrc.length;
+		for(var i=0;i<len;i++){
+			var oImg=new Image();
+			oImg.src=`images/${imgSrc[i]}`;
+			let oDiv=document.createElement('div');
+            oDiv.style.position="absolute";
+            oDiv.style.webkitTransition="all 0.5s ease-out";
+            let j=i;
+			oImg.onload=function(){
+				oDiv.style.width=this.width;
+				let distance=(containerWidth-this.width)/(imgSrc.length-1);
+				if(j==0){
+					oDiv.style.left= 0;
+				}else{
+					oDiv.style.left=`${distance+j*distance}px`;
+				}
+				this.onmouseover=function(){
+					for(var x=len-1;x>=0;x--){
+						if(x<=j){
+							document.querySelectorAll('.container div')[x].style.left=`${x*distance}px`;
+						}else{
+							document.querySelectorAll('.container div')[x].style.left=`${distance+x*distance}px`;
+						}
+					}
+				}
+			}
+			oDiv.appendChild(oImg);
+			oCon.appendChild(oDiv);
+		}
+	</script>
+</body>
+</html>

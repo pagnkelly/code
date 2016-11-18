@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+
+	<script src="js/jquery-2.1.0.min.js"></script>
+	<div id="pic">
+		<img src="images/layer.png" alt="">
+
+	</div>
+	<script>
+		if(document.addEventListener){
+document.addEventListener('webkitvisibilitychange',function(){
+			console.log(document.webkitVisibilityState);
+			});
+	</script>
+
+</body>
+</html>
